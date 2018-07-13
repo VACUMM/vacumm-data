@@ -24,5 +24,6 @@ set prefix [file dirname $etcdir]
 set datdir $prefix/share/vacumm
 
 # Now configure the environment
+prepend-path PYTHONPATH $prefix
 setenv VACUMM_DATA_DIR $datdir
 

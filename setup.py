@@ -2,6 +2,11 @@
 
 from distutils.core import setup
 import os
+from vacumm_data import (__version__ as version,
+                         __author__ as author,
+                         __email__ as author_email,
+                         __url__ as url,
+                         )
 
 data_files = []
 for root, dirs, files in os.walk("share/vacumm", topdown=False):
@@ -9,25 +14,25 @@ for root, dirs, files in os.walk("share/vacumm", topdown=False):
         files = [os.path.join(root, fname) for fname in files]
         data_files.append((root, files))
 
-setup(name='vacumm-data',
-      version='1.0',
-      description=('Data used by the vacumm python library '
-                   'and its tutorials and tests'),
-      author='Stephane Raynaud',
-      author_email='stephane.raynaud@gmail.com',
-      url='https://www.ifremer.fr/vacumm',
-      data_files=data_files,
-      classifiers=["Development Status :: 4 - Beta",
-                   "Intended Audience :: Science/Research",
-                   "License :: CeCiLL",
-                   "Programming Language :: Python :: 2",
-                   "Topic :: Scientific/Engineering :: GIS",
-                   "Topic :: Scientific/Engineering :: Physics",
-                   "Topic :: Scientific/Engineering :: Mathematics",
-                   "Topic :: Scientific/Engineering :: Atmospheric Science",
-                   "Topic :: Software Development :: Libraries :: Python Modules",
-                   "Operating System :: POSIX",
-                   "Operating System :: UNIX",
-                   "Operating System :: MacOS :: MacOS X",
-                   ]
-      )
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+if __name__ == '__main__':
+    setup(name='vacumm-data',
+          version=version,
+          description=('Data used by the vacumm python library '
+                       'and its tutorials and tests'),
+          long_description=long_description,
+          author=author,
+          author_email=author_email,
+          url=url,
+          py_modules=['vacumm_data'],
+          data_files=data_files,
+          classifiers=[
+                       "Intended Audience :: Science/Research",
+                       "License :: CeCiLL",
+                       "Programming Language :: Python :: 2",
+                       "Programming Language :: Python :: 3",
+                       "Operating System :: OS Independent",
+                       ]
+          )

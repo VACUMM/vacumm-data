@@ -14,8 +14,8 @@ from __future__ import print_function
 import sys
 import os
 
-__version__ = '1.0.0'
-__date__ = '2018-07-13'
+__version__ = '1.0.2'
+__date__ = '2018-07-17'
 __author__ = 'Stephane Raynaud',
 __email__ = 'stephane.raynaud@gmail.com',
 __url__ = 'https://www.ifremer.fr/vacumm',

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from distutils.core import setup
+#from distutils.core import setup
+from setuptools import setup
 import os
 from vacumm_data import (__version__ as version,
                          __author__ as author,
@@ -30,7 +31,8 @@ if __name__ == '__main__':
           data_files=data_files,
           classifiers=[
                        "Intended Audience :: Science/Research",
-                       "License :: CeCiLL",
+                       ("License :: OSI Approved :: CEA CNRS Inria Logiciel "
+                       "Libre License, version 2.1 (CeCILL-2.1)"),
                        "Programming Language :: Python :: 2",
                        "Programming Language :: Python :: 3",
                        "Operating System :: OS Independent",

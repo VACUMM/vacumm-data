@@ -16,7 +16,7 @@ import os
 import site
 import six
 
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 __date__ = '2018-07-18'
 __author__ = 'Stephane Raynaud',
 __email__ = 'stephane.raynaud@gmail.com',

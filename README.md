@@ -1,5 +1,7 @@
 # VACUMM data (vacumm-data)
 
+[![Build Status](https://travis-ci.org/VACUMM/vacumm-data.svg?branch=master)](https://travis-ci.org/VACUMM/vacumm-data)
+
 Data used by the [vacumm](http://wwwifremer.fr/vacumm) python library
 and its tutorials and test scripts.
 
@@ -12,17 +14,27 @@ On GitHub: https://github.com/VACUMM/vacumm-data
 ## Installation
 
 ```bash
-$ python setup.py install
+$ python setup.py install # from sources
+$ pip install vacumm-data
+$ conda install vacumm-data
 ```
 
-Files are installed in the `<prefix>share/vacumm` folder.
+Files are typically installed in the `<prefix>share/vacumm` folder.
 
+## Access to the data path
+
+This can be done with the `vacumm_data.get_vacumm_data_dir()` function:
+
+```python
+
+base_path = get_vacumm_data_dir()
+```
 
 ## Data
 
 ### Samples (`samples`)
 
-Theses files are used by the tutorial and test scripts.
+Theses files are used by the vacumm tutorials and test scripts.
 
 ### Shorelines (`shorelines`)
 

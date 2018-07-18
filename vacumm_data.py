@@ -13,6 +13,8 @@ Function :func:`get_vacumm_data_dir` helps getting this path.
 from __future__ import print_function
 import sys
 import os
+import site
+import six
 
 __version__ = '1.0.2'
 __date__ = '2018-07-17'
@@ -20,41 +22,45 @@ __author__ = 'Stephane Raynaud',
 __email__ = 'stephane.raynaud@gmail.com',
 __url__ = 'https://www.ifremer.fr/vacumm',
 
-VACUMM_DATA_DIR = os.path.join(sys.prefix, 'share', 'vacumm')
 
-
-def get_vacumm_data_dir(noenv=False, check=True):
+def get_vacumm_data_dir(noenv=False, check=True, roots=['user', 'system']):
     """Help getting the path to the VACUMM data dir
 
     It first tries to check if :envvar:`VACUMM_DATA_DIR` is set,
-    then fall back to :data:`vacumm_data.VACUMM_DATA_DIR` constant.
+    then fall back to the user or system :file:`share/vacumm` subfolder.
 
     Parameters
     ----------
     noenv: bool
-        Do not check the :envvar:`VACUMM_DATA_DIR`.
+        Do not check the environment variable :envvar:`VACUMM_DATA_DIR`.
     check: bool
         Check that the path exists.
-        If the path is checked and doesn't exists, it returns None.
+        If the path is checked and doesn't exists, it returns None, else
+        it is returned as is.
+    roots: list of strings
+        Lit of root directories where to search for the subfolder
+        :file:`share/vacumm`. Either a generic name or an explicit root
+        directory. Possible generic names:
+
+            - ``"user"``: user site directory (:func:`site.getuserbase`),
+              typically :file:`$HOME/.local/` on linux.
+            - ``"system"``: system directory (:data:`sys.prefix`.
 
     Return
     ------
     str or None
     """
-    global VACUMM_DATA_DIR
     if not noenv and 'VACUMM_DATA_DIR' in os.environ:
         path = os.environ['VACUMM_DATA_DIR']
         if not check or os.path.isdir(path):
             return path
-    path = VACUMM_DATA_DIR
-    if not check or os.path.isdir(path):
-            return path
-
-
-def test_get_vacumm_data_dir():
-    assert os.path.isdir(get_vacumm_data_dir(check=True))
-
-
-def test_installed():
-
-    assert os.path.isdir(os.path.join(sys.prefix, 'share', 'vacumm'))
+    if roots in six.string_types:
+        roots = [roots]
+    for root in roots:
+        if root == 'user':
+            root = site.getuserbase()
+        elif root == 'system':
+            root = sys.prefix
+        path = os.path.join(root, 'share', 'vacumm')
+        if not check or os.path.isdir(path):
+                return path

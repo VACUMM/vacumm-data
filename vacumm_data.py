@@ -105,3 +105,31 @@ def get_vacumm_data_dir(noenv=False, check=True, roots=None):
         path = os.path.join(root, 'share', 'vacumm')
         if not check or os.path.isdir(path):
                 return path
+
+
+def get_vacumm_data_file(subpath, check=True, **kwargs):
+    """Get the path of file stored in the vacumm data dir tree
+
+    Parameters
+    ----------
+    subpath: str
+        Path relative to the main directory.
+    check: bool
+        Return None of the file is not found.
+    **kwargs:
+        Other parameters are passed to the :func:`get_vacumm_data_dir`.
+
+    Return
+    ------
+    str or None
+        Full file path.
+        None is return by default if the file is not found.
+
+    """
+    data_dir = get_vacumm_data_dir(check=check, **kwargs)
+    if data_dir is None:
+        return
+    path = os.path.join(data_dir, subpath)
+    if check and not os.path.exists(path):
+        return
+    return path

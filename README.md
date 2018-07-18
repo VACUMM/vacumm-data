@@ -21,13 +21,21 @@ $ conda install vacumm-data
 
 Files are typically installed in the `<prefix>share/vacumm` folder.
 
-## Access to the data path
+## Access to the data paths
 
-This can be done with the `vacumm_data.get_vacumm_data_dir()` function:
+The main directory can be accessed with the
+`vacumm_data.get_vacumm_data_dir()` function:
 
 ```python
 
 base_path = get_vacumm_data_dir()
+```
+A particular file path is accessible with the
+`vacumm_data.get_vacumm_data_file()` function:
+
+```python
+
+ncfile = get_vacumm_data_file('samples/menor.nc')
 ```
 
 ## Data

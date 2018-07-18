@@ -4,7 +4,7 @@ import pytest
 from vacumm_data import get_vacumm_data_dir
 
 
-@pytest.mark.parametrize("root", ["user", "system", "egg", "/my/root"])
+@pytest.mark.parametrize("root", ["user", "system", "egg", "/my/root", None])
 def test_get_vacumm_data_dir_roots(root):
     path = get_vacumm_data_dir(check=False, roots=root)
     assert path.endswith(os.path.join('share', 'vacumm'))

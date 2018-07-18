@@ -22,9 +22,10 @@ __author__ = 'Stephane Raynaud',
 __email__ = 'stephane.raynaud@gmail.com',
 __url__ = 'https://www.ifremer.fr/vacumm',
 
+THIS_DIR = os.path.dirname(__file__)
 
-def get_vacumm_data_dir(noenv=False, check=True,
-                        roots=['user', 'system', 'egg']):
+
+def get_vacumm_data_dir(noenv=False, check=True, roots=None):
     """Help getting the path to the VACUMM data dir
 
     It first tries to check if :envvar:`VACUMM_DATA_DIR` is set,
@@ -38,8 +39,8 @@ def get_vacumm_data_dir(noenv=False, check=True,
         Check that the path exists.
         If the path is checked and doesn't exists, it returns None, else
         it is returned as is.
-    roots: list of strings
-        Lit of root directories where to search for the subfolder
+    roots: None, list of strings
+        List of root directories where to search for the subfolder
         :file:`share/vacumm`. Either a generic name or an explicit root
         directory. Possible generic names:
 
@@ -49,6 +50,8 @@ def get_vacumm_data_dir(noenv=False, check=True,
             - ``"egg"``: along with the :file:`vacumm_data.py` file,
               as in eggs (so ``os.path.dirname(__file__)``).
 
+        When set to None, it is guessed.
+
     Return
     ------
     str or None
@@ -57,15 +60,24 @@ def get_vacumm_data_dir(noenv=False, check=True,
         path = os.environ['VACUMM_DATA_DIR']
         if not check or os.path.isdir(path):
             return path
-    if roots in six.string_types:
+
+    if roots is None:
+        roots = []
+        if THIS_DIR in site.getsitepackages():
+            roots.append('system')
+        if THIS_DIR == site.USER_SITE:
+            roots.append('user')
+        roots.extend('egg', os.getcwd())
+    elif isinstance(roots, six.string_types):
         roots = [roots]
+
     for root in roots:
         if root == 'user':
             root = site.USER_BASE
         elif root == 'system':
             root = sys.prefix
         elif root == 'egg':
-            root = os.path.dirname(__file__)
+            root = THIS_DIR
         path = os.path.join(root, 'share', 'vacumm')
         if not check or os.path.isdir(path):
                 return path

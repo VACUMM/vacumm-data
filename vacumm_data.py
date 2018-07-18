@@ -24,6 +24,30 @@ __url__ = 'https://www.ifremer.fr/vacumm',
 
 THIS_DIR = os.path.dirname(__file__)
 
+def _getsitepackages_():
+    """Returns a list containing all global site-packages directories
+    (and possibly site-python).
+
+    For each directory present in the global ``PREFIXES``, this function
+    will find its `site-packages` subdirectory depending on the system
+    environment, and will return a list of full paths.
+    """
+    prefix = sys.prefix
+    sitepackages = []
+    if sys.platform in ('os2emx', 'riscos'):
+        sitepackages.append(os.path.join(prefix, "Lib", "site-packages"))
+    elif os.sep == '/':
+        sitepackages.append(os.path.join(prefix, "lib",
+                                    "python" + sys.version[:3],
+                                    "site-packages"))
+        sitepackages.append(os.path.join(prefix, "lib", "site-python"))
+    else:
+        sitepackages.append(prefix)
+        sitepackages.append(os.path.join(prefix, "lib", "site-packages"))
+
+    return sitepackages
+
+
 
 def get_vacumm_data_dir(noenv=False, check=True, roots=None):
     """Help getting the path to the VACUMM data dir
@@ -63,11 +87,11 @@ def get_vacumm_data_dir(noenv=False, check=True, roots=None):
 
     if roots is None:
         roots = []
-        if THIS_DIR in site.getsitepackages():
+        if THIS_DIR in _getsitepackages_():
             roots.append('system')
         if THIS_DIR == site.USER_SITE:
             roots.append('user')
-        roots.extend('egg', os.getcwd())
+        roots.extend(['egg', os.getcwd()])
     elif isinstance(roots, six.string_types):
         roots = [roots]
 

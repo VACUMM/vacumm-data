@@ -61,7 +61,7 @@ def get_vacumm_data_dir(noenv=False, check=True,
         roots = [roots]
     for root in roots:
         if root == 'user':
-            root = site.getuserbase()
+            root = site.USER_BASE
         elif root == 'system':
             root = sys.prefix
         elif root == 'egg':

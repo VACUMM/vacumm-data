@@ -23,7 +23,8 @@ __email__ = 'stephane.raynaud@gmail.com',
 __url__ = 'https://www.ifremer.fr/vacumm',
 
 
-def get_vacumm_data_dir(noenv=False, check=True, roots=['user', 'system']):
+def get_vacumm_data_dir(noenv=False, check=True,
+                        roots=['user', 'system', 'egg']):
     """Help getting the path to the VACUMM data dir
 
     It first tries to check if :envvar:`VACUMM_DATA_DIR` is set,
@@ -44,7 +45,9 @@ def get_vacumm_data_dir(noenv=False, check=True, roots=['user', 'system']):
 
             - ``"user"``: user site directory (:func:`site.getuserbase`),
               typically :file:`$HOME/.local/` on linux.
-            - ``"system"``: system directory (:data:`sys.prefix`.
+            - ``"system"``: system directory (:data:`sys.prefix`).
+            - ``"egg"``: along with the :file:`vacumm_data.py` file,
+              as in eggs (so ``os.path.dirname(__file__)``).
 
     Return
     ------
@@ -61,6 +64,8 @@ def get_vacumm_data_dir(noenv=False, check=True, roots=['user', 'system']):
             root = site.getuserbase()
         elif root == 'system':
             root = sys.prefix
+        elif root == 'egg':
+            root = os.path.dirname(__file__)
         path = os.path.join(root, 'share', 'vacumm')
         if not check or os.path.isdir(path):
                 return path
